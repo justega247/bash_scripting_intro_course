@@ -1,0 +1,12 @@
+#!/bin/bash -x
+
+
+# While loop
+# This script reads input from a given file and prints it to the stdout(terminal)
+# Author: Tega
+
+# $1 is the path to the file to be read
+# Example usage ./mywhile ./note
+while read -r || [[ $REPLY ]]; do
+  printf "%s\n" "$REPLY"
+done < $1

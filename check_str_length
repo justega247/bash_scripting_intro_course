@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Compare length of two strings
+# Author: Tega
+
+# Check number of arguments
+if [[ $# -ne 2 ]]; then
+  echo "Need exactly two arguments"
+  exit 1
+fi
+
+length_1=${#1}
+length_2=${#2}
+
+# Check for the longer string
+if [[ $length_1 -gt $length_2 ]]; then
+  echo "$1 has a greater length"
+elif [[ $length_1 -lt $length_2 ]]; then
+  echo "$2 has a greater length"
+else
+  echo "The lengths are equal"
+fi
+
+exit 0

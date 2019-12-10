@@ -1,0 +1,23 @@
+#!/bin/bash -x
+
+# Change filename extensions
+# Author: Tega
+
+# Check the length of arguments supplied
+
+# if [[ $# -ne 2 ]]; then
+#   echo "Need exactly two arguments" >&2
+#   exit 1
+# fi
+
+# rewriting lines 8 - 11
+[[ $# -ne 2 ]] && { echo "Need exactly two arguments" >&2; exit 1; }
+
+
+# find all files with the specified extension ($1 argument) to convert to the second extension($2 argument)
+for f in *"$1"; do
+  # example echo $(basename "note.txt" "txt") returns "note."
+  base=$(basename "$f" "$1")
+  # to actually execute the commands, remove the echo keyword
+  mv "$f" "${base}$2"
+done

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Create script
+# This script creates new bash scripts, sets their permission and more
+# Author: Tega
+
+# Test if there is an argument
+if [[ ! $1 ]]; then
+  echo "Missing argument"
+  exit 1
+fi
+
+scriptname=$1
+scriptsdir="${HOME}/Documents/bash_scripting_prac"
+filename="${scriptsdir}/${scriptname}"
+
+# Check if the new file already exists in the directory
+if [[ -e $filename ]]; then
+  echo "File ${filename} already exists"
+  exit 1
+fi
+
+# Check if the name of the script you provide clashes with the name of an existing command
+# redirecting to /dev/null as shown below basically discards the output message so it does not clutter the terminal
+# In the case of errors, using 2>&1 redirects from stderr to stdout
+if type "$scriptname" > /dev/null 2>&1; then
+  echo "There is already a command with name ${scriptname}"
+  exit 1
+fi
+
+# Check that the directory to save to exists
+if [[ ! -d $scriptsdir ]]; then
+  # Try to create the directory
+  if mkdir "$scriptsdir"; then
+    echo "Created ${scriptsdir}"
+  else
+    echo "Could not create ${scriptsdir}"
+    exit 1
+  fi
+fi
+
+# Create the new script
+echo "#!/bin/bash" > "$filename"
+# Add executable permission
+chmod u+x "$filename"
+# Open with editor
+if [[ $EDITOR ]]; then
+  $EDITOR "$filename"
+else
+  echo "Script created; editor not started because \$EDITOR is not set."
+fi

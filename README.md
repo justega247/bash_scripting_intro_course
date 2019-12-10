@@ -1,0 +1,1 @@
+A crash course on learning bash scripting.

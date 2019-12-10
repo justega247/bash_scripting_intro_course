@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Change filename extensions using search and replace
+# The -- on line 9 is the "End of Options syntax" used for telling
+# bash that whatever follows is not signifying an option flag
+# This helps especially when getting input from an external source to prevent 
+# inputs starting with a dash "-" from throwing errors.
+
+[[ $# -ne 2 ]] && { echo "Need exactly two arguments" >&2; exit 1; }
+
+for f in *"$1"; do
+  mv -- "$f" "${f/%$1/$2}"
+done

@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Create script
+# This script creates new bash scripts, sets their permission and more
+# Author: Tega
+
+# The shift command removes the first argument
+# All positional parameters shift
+# $2 -> $1, $3 -> $2, $4 -> $3 etc.
+# $# i.e total number of arguments is reduced by one after every "shift" call
+# You can give a number to shift multiple e.g "shift 3" removes the first three arguments
+
+# Test if there is an argument
+if [[ ! $1 ]]; then
+  echo "Missing argument"
+  exit 1
+fi
+
+# if the total number of argument provided is exactly one, then we can open the editor
+# after its creation else for multiple arguments, we don't open the editor
+declare open_editor=""
+if [[ $# -eq 1 ]]; then
+  open_editor="true"
+fi
+
+declare -r scriptsdir="${HOME}/Documents/bash_scripting_prac"
+
+# Check that the directory to save to exists
+if [[ ! -d $scriptsdir ]]; then
+  # Try to create the directory if it does not exist
+  if mkdir "$scriptsdir"; then
+    echo "Created ${scriptsdir}" >&2
+  else
+    echo "Could not create ${scriptsdir}" >&2
+    exit 1
+  fi
+fi
+
+# The logic below handles the creation of multiple scripts if more than one argument is provided
+while [[ $1 ]]; do
+  scriptname="$1"
+  filename="${scriptsdir}/${scriptname}"
+
+  # Check if the new file already exists in the directory
+  if [[ -e $filename ]]; then
+    echo "File ${filename} already exists" >&2
+    shift
+    continue
+  fi
+
+  # Check if the name of the script you provide clashes with the name of an existing command
+  # redirecting to /dev/null as shown below basically discards the output message so it does not clutter the terminal
+  # In the case of errors, using 2>&1 redirects from stderr to stdout
+  if type "$scriptname" > /dev/null 2>&1; then
+    echo "There is already a command with name ${scriptname}" >&2
+    shift
+    continue
+  fi
+
+  # Create a script with a single line
+  echo "#!/bin/bash" > "$filename"
+  # Add executable permission
+  chmod u+x "$filename"
+  shift
+done
+
+
+if [[ $open_editor ]]; then
+  echo opening
+  if [[ $EDITOR ]]; then
+    $EDITOR "$filename"
+  fi
+fi

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# If -n is specified, the trailing newline is suppressed
+echo -n "Are you sure (Y/N)? "
+
+answered=
+
+while [[ ! $answered ]]; do
+  # If the -r option is given, this signifies `raw' input
+  # If -n is supplied with a non-zero NCHARS argument, read returns after NCHARS characters have been read
+  # The -s option causes input coming from a terminal to not be echoed
+  read -r -n 1 -s answer
+  if [[ $answer = [Yy] ]]; then
+    answered="yes"
+  elif [[ $answer = [Nn] ]]; then
+    answered="no"
+  fi
+done
+
+printf "\n%s\n" $answered

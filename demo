@@ -1,0 +1,8 @@
+++ date
++ date='Wed  4 Dec 2019 13:12:34 WAT'
++ topic=
++ filename=/Users/oghenetega/Desktop/notes.txt
++ read -p 'Your note: ' note
+Your note: + [[ -n '' ]]
++ echo 'No input; note was not saved'
+No input; note was not saved
